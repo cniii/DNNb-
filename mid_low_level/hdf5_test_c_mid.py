@@ -5,10 +5,10 @@ import h5py
 filepath = '/phys/groups/tev/scratch4/users/kaifulam/dguest/gjj-pheno/v1/julian/raw_data'
 
 #n_samples = 10000000
-n_samples = 10
+n_samples = 10000000
 # n_samples = n_samples / 100 #less reps for testing purposes
 #n_batch = 10000
-n_batch = 1
+n_batch = 100000
 n_rep = n_samples / n_batch
 
 # tt_split = 0.8    # train test split = 0.8 train, 0.2 test
@@ -30,7 +30,7 @@ for k in range(n_rep):
             print ('@line number i = ', i)
 
         # load mid-level numpy files
-        print('loading clean_dijet_mid_'+ str(k * n_batch + i) + '.npy')
+        print('loading clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
         mid = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
         print 'loading y...'
         y = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(k * n_batch + i) + '.npy')
