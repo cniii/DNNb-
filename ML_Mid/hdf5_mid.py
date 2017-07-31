@@ -23,21 +23,20 @@ for j in range(size):
     if j % 1000 == 0:
         print 'loading #' + str(j)
 
-    mid = np.empty([15, 28, 1])
-    pid = np.empty([3, 1])
+    mid = np.empty([15, 28])
+    pid = np.empty([3])
 
     mid_tmp = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(j) + '.npy')
     y = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(j) + '.npy')
 
     for k in range(15):
-        mid[k, 28, ...] = mid_tmp[15 * k: 15 * (k + 1)]
-
+        mid[k, :, :] = np.resize(np.transpose(mid_tmp[28 * k: 28 * (k + 1), [28])
     if y == 5:
-        pid[:, j] = [0, 0, 1]
+        pid[:] = [0, 0, 1]
     elif y == 4:
-        pid[:, j] = [0, 1, 0]
+        pid[:] = [0, 1, 0]
     else:
-        pid[:, j] = [1, 0, 0]
+        pid[:] = [1, 0, 0]
 
     # put into the data set
     dset_var[:, :, j] = mid
