@@ -26,18 +26,20 @@ signal --> y == 5
 import numpy as np
 import matplotlib.pyplot as plt
 
-histo_sig = np.genfromtxt("histo_sig_collector_mid.csv", delimiter=',')
-histo_bg = np.genfromtxt("histo_bg_collector_mid.csv", delimiter=',')
-bino = np.genfromtxt("bin_collector_mid.csv", delimiter=',')
+
+histo_sig = np.genfromtxt("histo_sig_collector_mid_100.csv", delimiter=',')
+histo_bg = np.genfromtxt("histo_bg_collector_mid_100.csv", delimiter=',')
+bino = np.genfromtxt("bin_collector_mid_100.csv", delimiter=',')
 
 fig = plt.figure(figsize=(70, 40))
 fig.suptitle('Mid Variables', fontsize=80)
 
-for i in range(histo_sig.shape[0]):
-    ax = fig.add_subplot(4, 7, i + 1)
-    ax.plot(bino[i, :][:-1], histo_sig[i, :], drawstyle='steps-post', color='blue', label='sig')
-    ax.plot(bino[i, :][:-1], histo_bg[i, :], drawstyle='steps-post', color='red', label='bg')
-    ax.set_title(mid_var[i], fontsize=40)
-    ax.legend(loc='upper right')
 
-fig.savefig('mid_variables.png')
+for i in range(histo_sig.shape[0]):
+  ax = fig.add_subplot(4, 7, i + 1)
+  ax.plot(bino[i, :][:-1], histo_sig[i, :], drawstyle='steps-post', color='blue', label='sig')
+  ax.plot(bino[i, :][:-1], histo_bg[i, :], drawstyle='steps-post', color='red', label='bg')
+  ax.set_title(mid_var[i], fontsize=40)
+  ax.legend(loc='upper right')
+
+fig.savefig('mid_variables_100.png')

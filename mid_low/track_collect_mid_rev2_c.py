@@ -10,14 +10,14 @@ displacement_significance, n_tracks, energy_fraction}(repeat 15 times)]
 flavor (y):
 signal --> y == 5
 '''
-'''
-_binning = {0: [0, 300], 1: [-3, 3], 2: [0, 2.5], 3: [0, 5],
-            4: [0, 5], 5: [0, 5], 6: [0, 10], 7: [0, 0.04], 8: [0, 0.4], 9: [0, 0.4],
-            10: [0, 5], 11: [0, 10], 12: [0, 10], 13: [0, 7], 14: [0, 25], 15: [0, 5],
-            16: [0, 100], 17: [0, 100], 18: [0, 100], 19: [0, 100], 20: [0, 100],
-            21: [0, 100], 22: [0, 100], 23: [0, 100], 24: [0, 100], 25: [0, 100],
-            26: [0, 100], 27: [0, 100], 28: [0, 100], 29: [0, 100]}
-'''
+
+_binning = {0: [-8, 8], 1: [-300, 300], 2: [-0.5, 0.5], 3: [-0.5, 0.5],
+            4: [-2, 2], 5: [0, 0.005], 6: [-0.001, 0.01], 7: [0, 0.25], 8: [-0.0001, 0.0001], 9: [-0.0001, 0.0001],
+            10: [0, 2.5], 11: [-2, 1.5], 12: [-0.0001, 0.0001], 13: [-1.5, 1.5], 14: [0, 5], 15: [0, 0.001],
+            16: [-0.0001, 0.0001], 17: [0, 3], 18: [-5, 5], 19: [0, 0.0001], 20: [0, 1],
+            21: [0, 40], 22: [-1000, 1000], 23: [-8, 8], 24: [-4, 4], 25: [0, 500],
+            26: [0, 16], 27: [0, 1.2]}
+
 import numpy as np
 import h5py
 
@@ -26,12 +26,12 @@ filepath = '/phys/groups/tev/scratch4/users/chengni/'
 f = h5py.File(filepath + 'gjj_Variables_mid.hdf5', 'r')
 '''
 # for small dataset testing
-filepath = '/Users/nhy/Desktop/DNN/Github_local/Simulation/Mid_level/gjj_Variables_mid.hdf5'
+filepath = '/Users/nhy/Desktop/DNN/Github_local/DNNb-/test_100/gjj_Variables_mid_100.hdf5'
 f = h5py.File(filepath, 'r')
 
-# small dataset: 10x15
-mid = f['mid_input'][0:10]
-y = f['y_input'][0:10]
+# only include first 100
+mid = f['mid_input'][0:100, 0:15]  # 15 tracks
+y = f['y_input'][0:100, 0:15]
 
 mid_sig_collect = mid[y[:, 2].astype(bool), :, :]
 mid_c_collect = mid[y[:, 1].astype(bool), :, :]
@@ -45,10 +45,17 @@ bin_collector = []
 
 # histogram for each variable k
 for k in range(mid_sig_collect.shape[2]):
+    var_sig = []
+    var_c = []
+    var_bg = []
+    for j in range(mid_sig_collect.shape[1]):
+        var_sig.extend(mid_sig_collect[:, j, k])
+        var_c.extend(mid_c_collect[:, j, k])
+        var_bg.extend(mid_bg_collect[:, j, k])
 
-    var_sig = mid_sig_collect[:, :, k]
-    var_c = mid_c_collect[:, :, k]
-    var_bg = mid_bg_collect[:, :, k]
+    var_sig = np.asarray(var_sig)
+    var_c = np.asarray(var_c)
+    var_bg = np.asarray(var_bg)
 
     # remove nan for plotting
     sig = var_sig[~np.isnan(var_sig)]
@@ -56,15 +63,14 @@ for k in range(mid_sig_collect.shape[2]):
     c = var_c[~np.isnan(var_c)]
 
     # create bins
-    '''
     if k in _binning:
         bin_min, bin_max = _binning.get(k)
     else:
         max_sig, min_sig = sig.max(), sig.min()
         max_bg, min_bg = bg.max(), bg.min()
-        max_c, min_c = c.max(), c.min()
-        bin_max, bin_min = max(max_sig, max_bg, max_c), min(min_sig, min_bg, min_c)
+        bin_max, bin_min = max(max_sig, max_bg), min(min_sig, min_bg)
     bins = np.linspace(bin_min, bin_max, 101)
+
     '''
     print ('sig: ', sig.shape, 'bg: ', bg.shape, 'mid: ', c.shape)
     if sig.shape[0] > 0:
@@ -81,6 +87,7 @@ for k in range(mid_sig_collect.shape[2]):
         max_c, min_c = 0, 0
     bin_max, bin_min = max(max_sig, max_bg, max_c), min(min_sig, min_bg, min_c)
     bins = np.linspace(bin_min, bin_max, 101)
+    '''
 
     # histogram
     hist_sig, bins = np.histogram(sig, normed=True, bins=bins)
@@ -97,7 +104,7 @@ histo_c_collector = np.asarray(histo_c_collector)
 histo_bg_collector = np.asarray(histo_bg_collector)
 bin_collector = np.asarray(bin_collector)
 
-np.savetxt("histo_sig_collector_mid.csv", histo_sig_collector, delimiter=',')
-np.savetxt("histo_c_collector_mid.csv", histo_c_collector, delimiter=',')
-np.savetxt("histo_bg_collector_mid.csv", histo_bg_collector, delimiter=',')
-np.savetxt("bin_collector_mid.csv", bin_collector, delimiter=',')
+np.savetxt("histo_sig_collector_mid_100.csv", histo_sig_collector, delimiter=',')
+np.savetxt("histo_c_collector_mid_100.csv", histo_c_collector, delimiter=',')
+np.savetxt("histo_bg_collector_mid_100.csv", histo_bg_collector, delimiter=',')
+np.savetxt("bin_collector_mid_100.csv", bin_collector, delimiter=',')

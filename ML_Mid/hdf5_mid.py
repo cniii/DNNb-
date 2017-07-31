@@ -1,22 +1,37 @@
 import numpy as np
 import h5py
 
-
+# input data path
 filepath = '/phys/groups/tev/scratch4/users/kaifulam/dguest/gjj-pheno/v1/julian/raw_data'
+# create the dst hdf5 file
+f = h5py.File('/phys/groups/tev/scratch4/users/chengni/gjj_Variables_mid.hdf5', 'w')
 
-#n_samples = 10000000
+# number of input data files
+size = 10000000
+var_num = 28
+
+# Create dataset
+dset = f.create_dataset('mid_variables')
+dset = f.create_dataset('mid_pid')
+
+# create groups - 15 tracks
+for j in range(var_num):
+    g = f.create_group('track_' + 1)
+
+# write the data from src
+for j in range(size):
+    var = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
+    pid = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(k * n_batch + i) + '.npy')
+
+
+'''
 n_samples = 10000000
 # n_samples = n_samples / 100 #less reps for testing purposes
-#n_batch = 10000
-n_batch = 100000
+n_batch = 10000
 n_rep = n_samples / n_batch
 
-# tt_split = 0.8    # train test split = 0.8 train, 0.2 test
-
-f = h5py.File('/phys/groups/tev/scratch4/users/chengni/gjj_Variables_mid.hdf5', 'w')
 dset_mid = f.create_dataset('mid_input', (n_samples, 15, 28), maxshape=(None, 15, 28))
 dset_y = f.create_dataset('y_input', (n_samples, 3), maxshape=(None, 3))
-
 
 # another for loop for n_samples
 for k in range(n_rep):
@@ -55,3 +70,4 @@ for k in range(n_rep):
     # Set hdf5 dataset
     dset_mid[0 + k * n_batch: (1 + k) * n_batch, ...] = np.asarray(X_input)
     dset_y[0 + k * n_batch: (1 + k) * n_batch, ...] = np.asarray(y_input)
+'''
