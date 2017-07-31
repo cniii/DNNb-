@@ -11,63 +11,37 @@ size = 10000000
 var_num = 28
 
 # Create dataset
-dset = f.create_dataset('mid_variables')
-dset = f.create_dataset('mid_pid')
+dset_var = f.create_dataset('mid_variables', (15, 28, size))
+dset_pid = f.create_dataset('mid_pid', (3, size))
 
 # create groups - 15 tracks
 for j in range(var_num):
-    g = f.create_group('track_' + 1)
+    g = f.create_group('track_' + str(j))
 
 # write the data from src
 for j in range(size):
-    var = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
-    pid = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(k * n_batch + i) + '.npy')
+    if j % 1000 == 0:
+        print 'loading #' + str(j)
 
+    mid = np.empty([15, 28, 1])
+    pid = np.empty([3, 1])
 
-'''
-n_samples = 10000000
-# n_samples = n_samples / 100 #less reps for testing purposes
-n_batch = 10000
-n_rep = n_samples / n_batch
+    mid_tmp = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(j) + '.npy')
+    y = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(j) + '.npy')
 
-dset_mid = f.create_dataset('mid_input', (n_samples, 15, 28), maxshape=(None, 15, 28))
-dset_y = f.create_dataset('y_input', (n_samples, 3), maxshape=(None, 3))
+    for k in range(15):
+        mid[k, 28, ...] = mid_tmp[15 * k: 15 * (k + 1)]
 
-# another for loop for n_samples
-for k in range(n_rep):
-    print 'k = ', k
+    if y == 5:
+        pid[:, j] = [0, 0, 1]
+    elif y == 4:
+        pid[:, j] = [0, 1, 0]
+    else:
+        pid[:, j] = [1, 0, 0]
 
-    X_input = np.empty([n_batch, 15, 28])
-    y_input = np.empty([n_batch, 3])
+    # put into the data set
+    dset_var[:, :, j] = mid
+    dset_pid[:, j] = y
 
-    for i in range(0, n_batch, 15):
-        if i % 1000 == 0:
-            print ('@line number i = ', i)
-
-        # load mid-level numpy files
-        print('loading clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
-        mid = np.load(filepath + '/saved_batches_test/clean_dijet_mid_' + str(k * n_batch + i) + '.npy')
-        print 'loading y...'
-        y = np.load(filepath + '/saved_batches_test/clean_dijet_y_' + str(k * n_batch + i) + '.npy')
-
-        # loop over the 15 groups
-        for j in range(15):
-            print("loading@ j = ", j)
-            X_input[i, j, :] = mid[0, 2 + j * 28: 2 + (j + 1) * 28]
-
-        #X_input[i, :, :] = mid
-        # y==5 is b jet signal; y==4 is c jet signal; For y: column 0 background, column 1 charm, column 2 bottom
-        if y == 5:
-            y_input[i, :] = [0, 0, 1]
-        elif y == 4:
-            y_input[i, :] = [0, 1, 0]
-        else:
-            y_input[i, :] = [1, 0, 0]
-
-    # remove nan
-    X_input = X_input[~np.isnan(X_input)]
-
-    # Set hdf5 dataset
-    dset_mid[0 + k * n_batch: (1 + k) * n_batch, ...] = np.asarray(X_input)
-    dset_y[0 + k * n_batch: (1 + k) * n_batch, ...] = np.asarray(y_input)
-'''
+for j in range(15):
+    f['track_' + str(j)] = dset_var[j, :, :]
