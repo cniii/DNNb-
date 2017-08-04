@@ -1,6 +1,6 @@
 # DNNb with Mid & Low Level Variables
 
-####Mid&Low Level Variable Distribution####
+#### Mid&Low Level Variable Distribution
 __Mid and low level variables overview__ ([output format reference](https://github.com/dguest/delphes-rave/wiki/Output-Format#jet-properties))
 
 The mid and low variables are organized as:
