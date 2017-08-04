@@ -4,7 +4,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-f = h5py.File('/Users/nhy/Desktop/DNN/Github_local/Data/gjj_Variables_mid_100.hdf5', 'r')
+f = h5py.File('/Users/nhy/Desktop/DNN/Github_local/Data/gjj_Variables_mid.hdf5', 'r')
 
 mid_var = ['D0', 'Z0', 'PHI', 'THETA', 'QOVERP',
            'D0D0',
