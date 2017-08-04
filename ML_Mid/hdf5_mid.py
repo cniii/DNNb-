@@ -31,6 +31,7 @@ for j in range(group):
 
         mid[:, k] = mid_tmp
 
+        # y==5 is b jet signal; y==4 is c jet signal; For y: column 0 background, column 1 charm, column 2 bottom
         if y == 5:
             pid[:, k] = [0, 0, 1]
         elif y == 4:
