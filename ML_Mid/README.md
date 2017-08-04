@@ -63,7 +63,25 @@ __Mid and Low Level Distribution Result__
    2nd colum -> background
 
 
+### Getting Ready for Machine Learning
+__Mid Level variables Correlation Matrix__
+Correlation matrix for each track:
+![track1](DNNb-/ML_Mid/Mid_Corr_track1.png)
+![track2](DNNb-/ML_Mid/Mid_Corr_track2.png)
+![track3](DNNb-/ML_Mid/Mid_Corr_track3.png)
+![track4](DNNb-/ML_Mid/Mid_Corr_track4.png)
+![track5](DNNb-/ML_Mid/Mid_Corr_track5.png)
 
+![track6](DNNb-/ML_Mid/Mid_Corr_track6.png)
+![track7](DNNb-/ML_Mid/Mid_Corr_track7.png)
+![track8](DNNb-/ML_Mid/Mid_Corr_track8.png)
+![track9](DNNb-/ML_Mid/Mid_Corr_track9.png)
+![track10](DNNb-/ML_Mid/Mid_Corr_track10.png)
+*Note* data from \#10+ tracks is too sparse for plotting.
 
+TODO
+-[x] plot the correlation matrices
+-[] understanding the plots
+-[] implement simple feedforward for mid level
 
 
