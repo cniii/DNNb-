@@ -26,12 +26,12 @@ filepath = '/phys/groups/tev/scratch4/users/chengni/'
 f = h5py.File(filepath + 'gjj_Variables_mid.hdf5', 'r')
 '''
 # for small dataset testing
-filepath = '/Users/nhy/Desktop/DNN/Github_local/DNNb/mid_low/gjj_Variables_mid.hdf5'
+filepath = '/Users/nhy/Desktop/DNN/Github_local/Data/gjj_Variables_mid_100_0803.hdf5'
 f = h5py.File(filepath, 'r')
 
 # only include first 100
-mid = f['mid_input'][0:100, 0:15]  # 15 tracks
-y = f['y_input'][0:100, 0:15]
+mid = f['mid_variables'][0:100, 0:15]  # 15 tracks
+y = f['mid_pid'][0:100, 0:15]
 
 mid_sig_collect = mid[y[:, 2].astype(bool), :, :]
 mid_c_collect = mid[y[:, 1].astype(bool), :, :]
@@ -104,7 +104,7 @@ histo_c_collector = np.asarray(histo_c_collector)
 histo_bg_collector = np.asarray(histo_bg_collector)
 bin_collector = np.asarray(bin_collector)
 
-np.savetxt("histo_sig_collector_mid_100.csv", histo_sig_collector, delimiter=',')
-np.savetxt("histo_c_collector_mid_100.csv", histo_c_collector, delimiter=',')
-np.savetxt("histo_bg_collector_mid_100.csv", histo_bg_collector, delimiter=',')
-np.savetxt("bin_collector_mid_100.csv", bin_collector, delimiter=',')
+np.savetxt("histo_sig_collector_mid_rev.csv", histo_sig_collector, delimiter=',')
+np.savetxt("histo_c_collector_mid_rev.csv", histo_c_collector, delimiter=',')
+np.savetxt("histo_bg_collector_mid_rev.csv", histo_bg_collector, delimiter=',')
+np.savetxt("bin_collector_mid_rev.csv", bin_collector, delimiter=',')

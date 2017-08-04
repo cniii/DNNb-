@@ -11,29 +11,29 @@ flavor (y):
 signal --> y == 5
 '''
 
-_binning = {0: [-8, 8], 1: [-300, 300], 2: [-0.5, 0.5], 3: [-0.5, 0.5],
-            4: [-2, 2], 5: [0, 0.005], 6: [-0.001, 0.01], 7: [0, 0.25], 8: [-0.0001, 0.0001], 9: [-0.0001, 0.0001],
-            10: [0, 2.5e-7], 11: [-2, 1.5], 12: [-0.0001, 0.0001], 13: [-1.5e-9, 1.5e-9], 14: [0, 5e-7], 15: [0, 0.000001],
-            16: [-0.0001, 0.0001], 17: [0, 3e-7], 18: [-5, 5], 19: [0, 0.0001], 20: [0, 1],
-            21: [0, 40], 22: [-1000, 1000], 23: [-8, 8], 24: [-4, 4], 25: [0, 500],
-            26: [0, 16], 27: [0, 1.2]}
+# _binning = {0: [-8, 8], 1: [-300, 300], 2: [-0.5, 0.5], 3: [-0.5, 0.5],
+#             4: [-2, 2], 5: [0, 0.005], 6: [-0.001, 0.01], 7: [0, 0.25], 8: [-0.0001, 0.0001], 9: [-0.0001, 0.0001],
+#             10: [0, 2.5e-7], 11: [-2, 1.5], 12: [-0.0001, 0.0001], 13: [-1.5e-9, 1.5e-9], 14: [0, 5e-7], 15: [0, 0.000001],
+#             16: [-0.0001, 0.0001], 17: [0, 3e-7], 18: [-5, 5], 19: [0, 0.0001], 20: [0, 1],
+#             21: [0, 40], 22: [-1000, 1000], 23: [-8, 8], 24: [-4, 4], 25: [0, 500],
+#             26: [0, 16], 27: [0, 1.2]}
 
 import numpy as np
 import h5py
 
 
-filepath = '/phys/groups/tev/scratch4/users/chengni/gjj_Variables_mid_0705.hdf5'
+# filepath = '/phys/groups/tev/scratch4/users/chengni/gjj_Variables_mid_0705.hdf5'
+# f = h5py.File(filepath, 'r')
+
+
+# for small dataset testing
+filepath = '/Users/nhy/Desktop/DNN/Github_local/Data/gjj_Variables_mid_100_0803.hdf5'
 f = h5py.File(filepath, 'r')
 
-'''
-# for small dataset testing
-filepath = '/Users/nhy/Desktop/DNN/gjj_Variables_mid_test1.hdf5'
-f = h5py.File(filepath, 'r')
-'''
 
 # include first all  10000000
-mid = f['mid_input'][0:100000000, 0:15]  # 15 tracks
-y = f['y_input'][0:100000000, 0:15]
+mid = f['mid_variables'][0:100000000, 0:15]  # 15 tracks
+y = f['mid_pid'][0:100000000, 0:15]
 
 mid_sig_collect = mid[y[:, 2].astype(bool), :, :]
 mid_c_collect = mid[y[:, 1].astype(bool), :, :]
@@ -70,12 +70,10 @@ for k in range(mid_sig_collect.shape[2]):
     c = c[np.nonzero(c)]
 
     # create bins
-    if k in _binning:
-        bin_min, bin_max = _binning.get(k)
-    else:
-        max_sig, min_sig = sig.max(), sig.min()
-        max_bg, min_bg = bg.max(), bg.min()
-        bin_max, bin_min = max(max_sig, max_bg), min(min_sig, min_bg)
+    max_sig, min_sig = sig.max(), sig.min()
+    max_bg, min_bg = bg.max(), bg.min()
+    max_c, min_c = c.max(), c.min()
+    bin_max, bin_min = max(max_sig, max_bg, max_c), min(min_sig, min_bg, min_c)
     bins = np.linspace(bin_min, bin_max, 101)
 
     # histogram
