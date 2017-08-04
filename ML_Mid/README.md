@@ -1,6 +1,6 @@
 # DNNb with Mid & Low Level Variables
 
-#### Mid&Low Level Variable Distribution
+### Mid&Low Level Variable Distribution
 __Mid and low level variables overview__ ([output format reference](https://github.com/dguest/delphes-rave/wiki/Output-Format#jet-properties))
 
 The mid and low variables are organized as:
@@ -41,7 +41,9 @@ __Mid and Low Level Distribution Result__
 [mid_level variables]:
 
 
-####HDF5 Data Format####
+
+
+### HDF5 Data Format
 ``gjj_Variables_mid.hdf5`` contains two data set:
 1. ``mid_variables`` stores the mid & low level jet and track variables
 
