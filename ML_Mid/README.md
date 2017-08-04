@@ -38,7 +38,7 @@ There are **7** vertex variables:
 
 __Mid and Low Level Distribution Result__
 
-[mid_level variables]: (DNNb-/Distribution_Plot/mid_variables_c.png)
+![mid_level variables]: https://github.com/cniii/DNNb-/Distribution_Plot/mid_variables_c.png
 
 
 
