@@ -1,5 +1,7 @@
-# DNNb-
+# DNNb
 b-tagging with Deep Neutral Network
+
+![xkcd](https://what-if.xkcd.com/imgs/a/140/picture.png)
 
 ## Machine Learning with Mid and Low level variables
 Documentation:
