@@ -15,13 +15,6 @@ f = h5py.File(filepath+'mygjj_Variables.hdf5', 'r')'''
 X = f['high_input'][:, :]
 y = f['y_input'][:, :]
 
-# X = np.array(X_input)
-# y = np.array(y_input)
-
-# #reshape the array
-# X = np.reshape(X, (X.shape[0], 420))
-
-
 # masking nan
 print ('masking nan...')
 
@@ -36,11 +29,6 @@ print(X.shape)
 
 # Normalization
 print ('Normalizing...')
-
-# for i in range(X.shape[1]):
-#     var = X[:, i]
-#     var = (var - np.mean(var)) / np.std(var)
-#     X[:, i] = var
 
 scaler = MinMaxScaler(feature_range=(0, 1))
 X = scaler.fit_transform(X)
@@ -87,20 +75,6 @@ model.add(Activation("softmax"))
 print("train the model...")
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 model.fit(X_train, y_train, epochs=100, batch_size=100)
-
-# try:
-#     history = model.fit(X_train, y_train, batch_size=100,
-#                         callbacks=[
-#                             # EarlyStopping(verbose=True, patience=20),
-#                             ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
-#                         ],
-#                         epochs=100
-#                         )
-
-# except KeyboardInterrupt:
-#     print('Training ended early.')
-
-# print("history keys", history.history.keys())
 
 #predict
 y_hat = model.predict(X_test, batch_size=100)
